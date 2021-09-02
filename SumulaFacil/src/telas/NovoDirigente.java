@@ -1,7 +1,6 @@
 package telas;
 
 import java.awt.ComponentOrientation;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Label;
 import java.awt.Toolkit;
@@ -43,23 +42,6 @@ public class NovoDirigente extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JFormattedTextField formattedTextField_1_2;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-
-					NovoDirigente frame = new NovoDirigente();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -232,7 +214,7 @@ public class NovoDirigente extends JFrame {
 						JOptionPane.showMessageDialog(null, "Cadastrado com sucesso. Efetue o login!");
 						dispose();
 
-						Login login = new Login();
+						SumulaFacil login = new SumulaFacil();
 						login.setVisible(true);
 
 					}
@@ -280,10 +262,10 @@ public class NovoDirigente extends JFrame {
 
 				if (i == 0) {
 					dispose();
-					Login login;
+					SumulaFacil login;
 					try {
 
-						login = new Login();
+						login = new SumulaFacil();
 						login.setVisible(true);
 					} catch (Exception e) {
 						// TODO: handle exception

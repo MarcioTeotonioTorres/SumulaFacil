@@ -11,15 +11,12 @@
 			<property name="javax.persistence.jdbc.driver"
 				value="org.h2.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:h2:file:C:/Users/Marcio Torres/sumula_db" />
+				value="jdbc:h2:file:C:/Users/Márcio Torres/eclipse-workspace/SumulaFacil/sumula" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />
-<!-- 			<property name="connection.url">jdbc:h2:./data/contactmgr;DB_CLOSE_ON_EXIT=TRUE;FILE_LOCK=NO</property> -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />
-<!-- 			<property name="hibernate.hbm2ddl.auto" value = "update"/> -->
+			<property name="hibernate.hbm2ddl.auto" value = "update"/>
 			<property name="show_sql" value="true" />
-			<property name="hibernate.temp.use_jdbc_metadata_defaults"
-				value="false" />
 		</properties>
 	</persistence-unit>
 </persistence>

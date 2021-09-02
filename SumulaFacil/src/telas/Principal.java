@@ -18,6 +18,16 @@ import javax.swing.SwingConstants;
 
 import telas.telasInternas.CadastrarAnotador;
 import telas.telasInternas.CadastrarJogo;
+import util.Relogio;
+import util.Sessao;
+
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JToolBar;
+import java.awt.Component;
+import java.awt.ComponentOrientation;
+import java.awt.Cursor;
+import java.awt.Window.Type;
 
 public class Principal extends JFrame {
 
@@ -33,6 +43,7 @@ public class Principal extends JFrame {
 	private JDesktopPane desktopPane;
 	private CadastrarAnotador mp;
 	private CadastrarJogo cadastrarJogo;
+	private JTextField textField;
 
 	public Principal() {
 		setType(Type.POPUP);
@@ -50,7 +61,7 @@ public class Principal extends JFrame {
 		getContentPane().setLayout(null);
 
 		desktopPane = new JDesktopPane();
-		desktopPane.setBounds(3, 33, 1360, 650);
+		desktopPane.setBounds(0, 33, 1363, 629);
 
 		getContentPane().add(desktopPane);
 		desktopPane.setLayout(null);
@@ -139,10 +150,35 @@ public class Principal extends JFrame {
 
 		JMenuItem mntmNewMenuItem_10 = new JMenuItem("S\u00FAmula F\u00E1cil");
 		mnNewMenu_2.add(mntmNewMenuItem_10);
-
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setMaximumSize(new Dimension(950, 32));
+		separator_1.setOrientation(SwingConstants.VERTICAL);
+		menuBar.add(separator_1);
+		
+		JToolBar toolBar = new JToolBar();
+		toolBar.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		toolBar.setFloatable(false);
+		toolBar.setBounds(3, 664, 1347, 25);
+		getContentPane().add(toolBar);
+		
+		JLabel lblNewLabel = new JLabel("Bem vindo: "+ Sessao.getInstance().getUsuario().getNomeUsuario());
+		toolBar.add(lblNewLabel);
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		lblNewLabel.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+		lblNewLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		
 		JSeparator separator = new JSeparator();
+		toolBar.add(separator);
 		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setSize(getMinimumSize());
-		menuBar.add(separator);
+		
+		textField = new JTextField();
+		toolBar.add(textField);
+		textField.setMaximumSize(new Dimension(100, 24));
+		textField.setColumns(10);
+		
+		Relogio.start(textField);
+		
 	}
 }

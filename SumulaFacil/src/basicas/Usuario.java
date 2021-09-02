@@ -1,5 +1,7 @@
 package basicas;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,7 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 @Entity
-public class Usuario extends Pessoa{
+public class Usuario extends Pessoa implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -28,8 +30,17 @@ public class Usuario extends Pessoa{
 	private TipoUsuario tipoUsuario;
 	
 	public Usuario() {
-		super();
+		
 	}
+
+	public Usuario(Pessoa pessoa, String nomeUsuario, String senha, TipoUsuario tipoUsuario) {
+		super();
+		this.pessoa = pessoa;
+		this.nomeUsuario = nomeUsuario;
+		this.senha = senha;
+		this.tipoUsuario = tipoUsuario;
+	}
+
 
 	public String getNomeUsuario() {
 		return nomeUsuario;

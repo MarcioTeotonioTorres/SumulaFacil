@@ -14,7 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Pessoa implements Serializable {
 
 

@@ -7,6 +7,7 @@ import javax.persistence.PersistenceException;
 import basicas.Usuario;
 import conexao.FabricaDeConexao;
 import interfaceDao.IusuarioDao;
+import util.Sessao;
 
 public class UsuarioDao implements IusuarioDao {
 
@@ -66,7 +67,7 @@ public class UsuarioDao implements IusuarioDao {
 			em.createNativeQuery(sql).getSingleResult();
 			
 			System.out.println("ok");
-
+			Sessao.getInstance().setUsuario(usuario);
 			return true;
 
 		} catch (Exception e) {
