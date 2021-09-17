@@ -42,6 +42,10 @@ public class NovoDirigente extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField passwordField_1;
 	private JFormattedTextField formattedTextField_1_2;
+	private JFormattedTextField formattedTextField_1;
+	private JFormattedTextField formattedTextField;
+	private JSpinner spinner;
+	private JFormattedTextField formattedTextField_1_1;
 
 	/**
 	 * Create the frame.
@@ -104,7 +108,7 @@ public class NovoDirigente extends JFrame {
 
 		MaskFormatter cpfMask = new MaskFormatter("###.###.###-##");
 		cpfMask.setValidCharacters("0123456789");
-		JFormattedTextField formattedTextField = new JFormattedTextField(cpfMask);
+		formattedTextField = new JFormattedTextField(cpfMask);
 		formattedTextField.setToolTipText("Digite seu CPF!");
 		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -114,14 +118,14 @@ public class NovoDirigente extends JFrame {
 
 		MaskFormatter cepMask = new MaskFormatter("#####-###");
 		cepMask.setValidCharacters("0123456789");
-		JFormattedTextField formattedTextField_1 = new JFormattedTextField(cepMask);
+		formattedTextField_1 = new JFormattedTextField(cepMask);
 		formattedTextField_1.setToolTipText("Digite seu c\u00F3dogo postal CEP.!");
 		formattedTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
 		formattedTextField_1.setBounds(189, 215, 166, 33);
 		panel.add(formattedTextField_1);
 
-		JSpinner spinner = new JSpinner();
+		spinner = new JSpinner();
 		spinner.setToolTipText("Selecione sua idade!");
 
 		spinner.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
@@ -141,7 +145,7 @@ public class NovoDirigente extends JFrame {
 		lblNewLabel_1_1.setBounds(296, 341, 249, 27);
 		panel.add(lblNewLabel_1_1);
 
-		JFormattedTextField formattedTextField_1_1 = new JFormattedTextField();
+		formattedTextField_1_1 = new JFormattedTextField();
 		formattedTextField_1_1.setToolTipText("Digite o seu numero residencial com ou sem complemento!");
 		formattedTextField_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField_1_1.setFont(new Font("Tahoma", Font.PLAIN, 22));
@@ -202,9 +206,10 @@ public class NovoDirigente extends JFrame {
 				String senha = new String(passwordField.getPassword());
 				String repitaSenha = new String(passwordField_1.getPassword());
 
-				if (iControlador.inserirUsuarioControlador(formattedTextField_1.getText(), formattedTextField.getText(),
-						(int) spinner.getValue(), textField.getText(), formattedTextField_1_1.getText(),
-						formattedTextField_1_2.getText(), senha, textField_1.getText(), repitaSenha) != null) {
+				if (iControlador.inserirUsuarioControladorAnotador(formattedTextField_1.getText(),
+						formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
+						formattedTextField_1_1.getText(), formattedTextField_1_2.getText(), senha,
+						textField_1.getText(), repitaSenha) != null) {
 
 					if (iDao.inserirUsuarioDao(iControlador.inserirUsuarioControlador(formattedTextField_1.getText(),
 							formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
@@ -233,16 +238,7 @@ public class NovoDirigente extends JFrame {
 		btnNewButton.setToolTipText("Limpar campos!");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
-				formattedTextField_1.setText("");
-				formattedTextField.setText("");
-				spinner.setValue(7);
-				textField.setText("");
-				formattedTextField_1_1.setText("");
-				formattedTextField_1_2.setText("");
-				passwordField.setText("");
-				textField_1.setText("");
-				passwordField_1.setText("");
+				limparCampos();
 
 			}
 		});
@@ -294,5 +290,18 @@ public class NovoDirigente extends JFrame {
 		formattedTextField_1_2.setBounds(189, 277, 166, 33);
 		panel.add(formattedTextField_1_2);
 		setLocationRelativeTo(null);
+	}
+
+	public void limparCampos() {
+
+		formattedTextField_1.setText("");
+		formattedTextField.setText("");
+		spinner.setValue(7);
+		textField.setText("");
+		formattedTextField_1_1.setText("");
+		formattedTextField_1_2.setText("");
+		passwordField.setText("");
+		textField_1.setText("");
+		passwordField_1.setText("");
 	}
 }

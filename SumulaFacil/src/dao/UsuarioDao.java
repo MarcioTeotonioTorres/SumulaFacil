@@ -1,8 +1,12 @@
 package dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 
 import basicas.Usuario;
 import conexao.FabricaDeConexao;
@@ -11,19 +15,21 @@ import util.Sessao;
 
 public class UsuarioDao implements IusuarioDao {
 
-	EntityManager em;
-	
+private EntityManager em;
+
 	public UsuarioDao() {
-		em = FabricaDeConexao.getEntityManager();
+		
+			em =FabricaDeConexao.getEntityManager();		
+
 	}
 
 	public boolean excluirUsuarioPorId(Usuario u) {
 
-//		EntityManager em = FabricaDeConexao.getEntityManager();
+		EntityManager em = FabricaDeConexao.getEntityManager();
 		try {
 			em.createQuery("delete from usario where id = :id").setParameter("id", u.getMatricula()).executeUpdate();
 			System.out.println("deletado com sucesso");
-		
+
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -35,16 +41,16 @@ public class UsuarioDao implements IusuarioDao {
 
 	public boolean inserirUsuarioDao(Usuario usuario) {
 
-//		EntityManager em = FabricaDeConexao.getEntityManager();
+		em = FabricaDeConexao.getEntityManager();
 		EntityTransaction et = em.getTransaction();
 		try {
 
 			et.begin();
-			em.persist(usuario);			
+			em.persist(usuario);
 			et.commit();
-			
+
 			return true;
-			
+
 		} catch (PersistenceException e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -52,11 +58,10 @@ public class UsuarioDao implements IusuarioDao {
 
 			return false;
 		}
-
 	}
 
 	public boolean loginDao(Usuario usuario) {
-//		EntityManager em = FabricaDeConexao.getEntityManager();
+		em = FabricaDeConexao.getEntityManager();
 
 		try {
 
@@ -65,7 +70,7 @@ public class UsuarioDao implements IusuarioDao {
 					+ usuario.getTipoUsuario() + "';";
 
 			em.createNativeQuery(sql).getSingleResult();
-			
+
 			System.out.println("ok");
 			Sessao.getInstance().setUsuario(usuario);
 			return true;
@@ -76,4 +81,23 @@ public class UsuarioDao implements IusuarioDao {
 		}
 
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Usuario> listaDeAnotadores() {
+		em = FabricaDeConexao.getEntityManager();
+		try {
+			
+			List<Usuario> usuarios = new ArrayList<Usuario>();
+			String hql = "from Usuario where tipousuario = 'Anotador'";
+			Query query = em.createQuery(hql, Usuario.class);
+			usuarios = query.getResultList();
+			return usuarios;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} 
+
+	}
+
 }

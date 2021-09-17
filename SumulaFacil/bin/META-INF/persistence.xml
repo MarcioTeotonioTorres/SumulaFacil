@@ -6,12 +6,12 @@
 
 	<persistence-unit name="sumulaPersistence"
 		transaction-type="RESOURCE_LOCAL">
-		<class>basicas</class>
+		<class>basicas.Usuario</class>
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
 				value="org.h2.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:h2:file:C:/Users/Márcio Torres/eclipse-workspace/SumulaFacil/sumula" />
+				value="jdbc:h2:file:C:/Users/Márcio Torres/eclipse-workspace/SumulaFacil/sumula;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
 			<property name="javax.persistence.jdbc.password" value="" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect" />

@@ -21,7 +21,7 @@ public abstract class Pessoa implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	public Pessoa() {
-
+ 
 	}
 
 	@Id
@@ -111,6 +111,73 @@ public abstract class Pessoa implements Serializable {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((cep == null) ? 0 : cep.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + idade;
+		result = prime * result + (int) (matricula ^ (matricula >>> 32));
+		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
+		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Pessoa other = (Pessoa) obj;
+		if (cep == null) {
+			if (other.cep != null)
+				return false;
+		} else if (!cep.equals(other.cep))
+			return false;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (idade != other.idade)
+			return false;
+		if (matricula != other.matricula)
+			return false;
+		if (nome == null) {
+			if (other.nome != null)
+				return false;
+		} else if (!nome.equals(other.nome))
+			return false;
+		if (numero == null) {
+			if (other.numero != null)
+				return false;
+		} else if (!numero.equals(other.numero))
+			return false;
+		if (telefone == null) {
+			if (other.telefone != null)
+				return false;
+		} else if (!telefone.equals(other.telefone))
+			return false;
+		if (usuario == null) {
+			if (other.usuario != null)
+				return false;
+		} else if (!usuario.equals(other.usuario))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Pessoa [matricula=" + matricula + ", nome=" + nome + ", cpf=" + cpf + ", idade=" + idade + ", usuario="
+				+ usuario + ", telefone=" + telefone + ", numero=" + numero + ", cep=" + cep + "]";
 	}
 
 }

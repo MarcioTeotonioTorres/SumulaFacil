@@ -3,12 +3,13 @@ package util;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.swing.JTextField;
+import javax.swing.JLabel;
+
 
 public class Relogio {
 
 	
-	public static void start(final JTextField textFieldHorario){
+	public static void start(final JLabel textFieldHorario){
 		Thread atualizaHora = new Thread(new Runnable() {
 			
 			@Override
