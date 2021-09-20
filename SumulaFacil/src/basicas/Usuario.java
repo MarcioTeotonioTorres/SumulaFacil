@@ -82,7 +82,6 @@ public class Usuario extends Pessoa implements Serializable{
 		result = prime * result + ((nomeUsuario == null) ? 0 : nomeUsuario.hashCode());
 		result = prime * result + ((pessoa == null) ? 0 : pessoa.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
-		result = prime * result + ((tipoUsuario == null) ? 0 : tipoUsuario.hashCode());
 		return result;
 	}
 
@@ -110,8 +109,7 @@ public class Usuario extends Pessoa implements Serializable{
 				return false;
 		} else if (!senha.equals(other.senha))
 			return false;
-		if (tipoUsuario != other.tipoUsuario)
-			return false;
+		
 		return true;
 	}
 

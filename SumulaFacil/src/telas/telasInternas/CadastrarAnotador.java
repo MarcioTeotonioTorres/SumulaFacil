@@ -5,11 +5,10 @@ import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyVetoException;
-import java.sql.ResultSet;
 import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
@@ -18,14 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.text.MaskFormatter;
 
 import basicas.Usuario;
@@ -33,10 +33,7 @@ import controlador.UsuarioControlador;
 import dao.UsuarioDao;
 import interfaceControlador.IusuarioControlador;
 import interfaceDao.IusuarioDao;
-import net.proteanit.sql.DbUtils;
 import relatorios.TableModelAnotador;
-
-import javax.swing.JScrollPane;
 
 public class CadastrarAnotador extends JInternalFrame {
 
@@ -60,6 +57,8 @@ public class CadastrarAnotador extends JInternalFrame {
 	private JTable table;
 	private TableModelAnotador modelAnotador;
 	private JScrollPane scrollPane;
+	private JButton btnNewButton_1;
+	private JButton btnNewButton_2;
 	/**
 	 * Create the frame.
 	 * 
@@ -83,18 +82,18 @@ public class CadastrarAnotador extends JInternalFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panel.setBounds(55, 52, 586, 548);
+		panel.setBounds(55, 52, 1248, 548);
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel lblNewLabel_1 = new JLabel("Cadastre-se como novo \"Dirigente\".");
+		JLabel lblNewLabel_1 = new JLabel("Cadastre Anotadores.");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblNewLabel_1.setBounds(102, 22, 398, 27);
+		lblNewLabel_1.setBounds(318, 22, 243, 27);
 		panel.add(lblNewLabel_1);
 
 		Label label_1 = new Label("*Nome:");
 		label_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_1.setBounds(95, 71, 54, 25);
+		label_1.setBounds(214, 89, 54, 25);
 		panel.add(label_1);
 
 		textField = new JTextField();
@@ -102,12 +101,12 @@ public class CadastrarAnotador extends JInternalFrame {
 		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField.setColumns(10);
-		textField.setBounds(155, 71, 328, 25);
+		textField.setBounds(274, 89, 328, 25);
 		panel.add(textField);
 
 		Label label_1_1 = new Label("*CPF.:");
 		label_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_1_1.setBounds(102, 102, 47, 25);
+		label_1_1.setBounds(221, 120, 47, 25);
 		panel.add(label_1_1);
 
 		MaskFormatter maskCpf = new MaskFormatter("###.###.###-##");
@@ -117,26 +116,27 @@ public class CadastrarAnotador extends JInternalFrame {
 		formattedTextField.setToolTipText("Digite seu CPF!");
 		formattedTextField.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField.setFont(new Font("Tahoma", Font.BOLD, 14));
-		formattedTextField.setBounds(155, 102, 137, 25);
+		formattedTextField.setBounds(274, 120, 137, 25);
 		panel.add(formattedTextField);
 
 		Label label_2 = new Label("*Idade:");
 		label_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_2.setBounds(352, 102, 54, 25);
+		label_2.setBounds(471, 120, 54, 25);
 		panel.add(label_2);
 
 		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(7, null, 75, 1));
 		spinner.setToolTipText("Selecione sua idade!");
 		spinner.setFont(new Font("Tahoma", Font.BOLD, 14));
-		spinner.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-		spinner.setBounds(412, 102, 71, 25);
+		spinner.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+		spinner.setBounds(531, 120, 71, 25);
 		JFormattedTextField tf = ((JSpinner.DefaultEditor) spinner.getEditor()).getTextField();
 		tf.setEditable(false);
 		panel.add(spinner);
 
 		Label label_2_1 = new Label("*CEP.:");
 		label_2_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_2_1.setBounds(102, 133, 47, 25);
+		label_2_1.setBounds(221, 151, 47, 25);
 		panel.add(label_2_1);
 
 		MaskFormatter maskCep = new MaskFormatter("#####-###");
@@ -145,24 +145,24 @@ public class CadastrarAnotador extends JInternalFrame {
 		formattedTextField_1.setToolTipText("Digite seu c\u00F3dogo postal CEP.!");
 		formattedTextField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		formattedTextField_1.setBounds(155, 133, 120, 25);
+		formattedTextField_1.setBounds(274, 151, 120, 25);
 		panel.add(formattedTextField_1);
 
 		Label label = new Label("*N\u00B0 Residencial:");
 		label.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label.setBounds(292, 133, 114, 25);
+		label.setBounds(411, 151, 114, 25);
 		panel.add(label);
 
 		formattedTextField_1_1 = new JFormattedTextField();
 		formattedTextField_1_1.setToolTipText("Digite o seu numero residencial com ou sem complemento!");
 		formattedTextField_1_1.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField_1_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		formattedTextField_1_1.setBounds(412, 133, 71, 25);
+		formattedTextField_1_1.setBounds(531, 151, 71, 25);
 		panel.add(formattedTextField_1_1);
 
-		Label label_6 = new Label("Telefone:");
+		Label label_6 = new Label("*Telefone:");
 		label_6.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_6.setBounds(78, 164, 71, 25);
+		label_6.setBounds(191, 182, 77, 25);
 		panel.add(label_6);
 
 		MaskFormatter maskTelefone = new MaskFormatter("(##)#####-####");
@@ -171,17 +171,17 @@ public class CadastrarAnotador extends JInternalFrame {
 		formattedTextField_1_2.setToolTipText("Digite seu celular para contato!");
 		formattedTextField_1_2.setHorizontalAlignment(SwingConstants.CENTER);
 		formattedTextField_1_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		formattedTextField_1_2.setBounds(155, 164, 137, 25);
+		formattedTextField_1_2.setBounds(274, 182, 137, 25);
 		panel.add(formattedTextField_1_2);
 
 		JLabel lblNewLabel_1_1 = new JLabel("Informa\u00E7\u00F5es de login.");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.BOLD, 22));
-		lblNewLabel_1_1.setBounds(168, 211, 249, 27);
+		lblNewLabel_1_1.setBounds(768, 22, 249, 27);
 		panel.add(lblNewLabel_1_1);
 
-		Label label_3 = new Label("Nome de usuario:");
+		Label label_3 = new Label("*Nome de usuario:");
 		label_3.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_3.setBounds(22, 258, 127, 25);
+		label_3.setBounds(731, 87, 137, 25);
 		panel.add(label_3);
 
 		textField_1 = new JTextField();
@@ -189,45 +189,47 @@ public class CadastrarAnotador extends JInternalFrame {
 		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		textField_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		textField_1.setColumns(10);
-		textField_1.setBounds(155, 258, 328, 25);
+		textField_1.setBounds(874, 87, 172, 25);
 		panel.add(textField_1);
 
-		Label label_4 = new Label("Senha:");
+		Label label_4 = new Label("*Senha:");
 		label_4.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_4.setBounds(95, 299, 54, 25);
+		label_4.setBounds(806, 120, 62, 25);
 		panel.add(label_4);
 
 		passwordField = new JPasswordField();
 		passwordField.setToolTipText("Digite a senha!");
 		passwordField.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField.setFont(new Font("Tahoma", Font.BOLD, 14));
-		passwordField.setBounds(40, 329, 163, 25);
+		passwordField.setBounds(874, 120, 172, 25);
 		panel.add(passwordField);
 
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setToolTipText("Repita a senha!");
 		passwordField_1.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordField_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		passwordField_1.setBounds(383, 329, 163, 25);
+		passwordField_1.setBounds(874, 151, 172, 25);
 		panel.add(passwordField_1);
 
-		Label label_5 = new Label("Digite a senha novamente:");
+		Label label_5 = new Label("*Digite a senha novamente:");
 		label_5.setFont(new Font("Tahoma", Font.BOLD, 14));
-		label_5.setBounds(366, 299, 191, 25);
+		label_5.setBounds(667, 151, 201, 25);
 		panel.add(label_5);
 
-		JButton btnNewButton = new JButton("Limpar");
+		JButton btnNewButton = new JButton("Limpar/Novo");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limparCampos();
+				btnNewButton_1.setText("Salvar");
+				btnNewButton_2.setVisible(false);
 			}
 		});
 		btnNewButton.setToolTipText("Limpar campos!");
 		btnNewButton.setFont(new Font("Tahoma", Font.BOLD, 22));
-		btnNewButton.setBounds(40, 393, 172, 45);
+		btnNewButton.setBounds(214, 230, 191, 45);
 		panel.add(btnNewButton);
 
-		JButton btnNewButton_1 = new JButton("Salvar");
+		btnNewButton_1 = new JButton("Salvar");
 		btnNewButton_1.addActionListener(new ActionListener() {
 
 			@Override
@@ -250,7 +252,32 @@ public class CadastrarAnotador extends JInternalFrame {
 
 						JOptionPane.showMessageDialog(null, "Anotador cadastrado com sucesso!");
 						limparCampos();
-												
+						modelAnotador = new TableModelAnotador();		
+						table = new JTable(modelAnotador);
+						table.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent arg0) {
+								if(arg0.getClickCount()==1) {
+									textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
+									formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
+									spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
+									formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+									formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
+									formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+									textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
+									passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+									passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+									btnNewButton_1.setText("Atualizar");
+									btnNewButton_2.setVisible(true);
+									
+								}
+							}
+						});
+						table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						scrollPane.setViewportView(table);
+					}else {
+						
+						JOptionPane.showMessageDialog(null, "Usuário e/ou/ dados deste usuário já estão cadastrados");
 					}
 				} else {
 					JOptionPane.showMessageDialog(null, "Tente novamente!");
@@ -260,22 +287,84 @@ public class CadastrarAnotador extends JInternalFrame {
 		});
 		btnNewButton_1.setToolTipText("Cadastrar!");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 22));
-		btnNewButton_1.setBounds(374, 393, 172, 45);
+		btnNewButton_1.setBounds(543, 230, 172, 45);
 		panel.add(btnNewButton_1);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setLayout(null);
-		panel_1.setBorder(new BevelBorder(BevelBorder.RAISED, null, null, null, null));
-		panel_1.setBounds(713, 52, 586, 548);
-		getContentPane().add(panel_1);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(83, 356, 431, 94);
-		panel_1.add(scrollPane);
+		scrollPane.setBounds(78, 349, 1099, 133);
+		panel.add(scrollPane);
 		
-		modelAnotador = new TableModelAnotador((ArrayList<Usuario>) iDao.listaDeAnotadores());				
+		modelAnotador = new TableModelAnotador();		
 		table = new JTable(modelAnotador);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(arg0.getClickCount()==1) {
+					textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
+					formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
+					spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
+					formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+					formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
+					formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+					textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
+					passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+					passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+					btnNewButton_1.setText("Atualizar");
+					btnNewButton_2.setVisible(true);
+					
+				}
+			}
+		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
+		
+		btnNewButton_2 = new JButton("Apagar");
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Long id = (Long) modelAnotador.getValueAt(table.getSelectedRow(), 0);
+				if(iDao.excluirUsuarioPorId(id)) {
+					modelAnotador = new TableModelAnotador();		
+					table = new JTable(modelAnotador);
+					table.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent arg0) {
+							if(arg0.getClickCount()==1) {
+								textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
+								formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
+								spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
+								formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+								formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
+								formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+								textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
+								passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+								passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
+								btnNewButton_1.setText("Atualizar");
+								btnNewButton_2.setVisible(true);
+								
+							}
+						}
+					});
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+					scrollPane.setViewportView(table);
+				}
+			}
+		});
+		btnNewButton_2.setVisible(false);
+		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 22));
+		btnNewButton_2.setBounds(859, 230, 191, 45);
+		panel.add(btnNewButton_2);
+		
+		JLabel lblNewLabel = new JLabel("Selecione um item na lista para edit\u00E1-lo ou exclu\u00ED-lo.");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel.setBounds(78, 523, 361, 25);
+		panel.add(lblNewLabel);
+		
+		JLabel lblNewLabel_2 = new JLabel("Campos marcados (*) s\u00E3o obrigat\u00F3rios.");
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblNewLabel_2.setBounds(78, 498, 283, 25);
+		panel.add(lblNewLabel_2);
+		
+				
 		
 	
 	}
@@ -291,4 +380,5 @@ public class CadastrarAnotador extends JInternalFrame {
 		textField_1.setText("");
 		passwordField_1.setText("");
 	}
+	
 }

@@ -1,8 +1,5 @@
 package controlador;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.swing.JOptionPane;
 
 import basicas.TipoUsuario;
@@ -12,11 +9,7 @@ import interfaceControlador.IusuarioControlador;
 public class UsuarioControlador implements IusuarioControlador {
 
 
-	public UsuarioControlador() {
-
-		 
-
-	}
+	public UsuarioControlador() {}
 
 	public Usuario inserirUsuarioControlador(String cep, String cpf, int idade, String nome, String numero,
 			String telefone, String senha, String nomeUsuario, String repitaSenha) {

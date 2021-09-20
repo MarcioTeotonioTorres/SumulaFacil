@@ -2,23 +2,28 @@ package relatorios;
 
 import java.util.ArrayList;
 
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
 import basicas.TipoUsuario;
 import basicas.Usuario;
+import dao.UsuarioDao;
+import interfaceDao.IusuarioDao;
 public class TableModelAnotador extends AbstractTableModel{
 
+	private IusuarioDao iDao = new UsuarioDao();
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	//aqui transformei em coluna cada propriedade de Funcionario
     //que eu quero que seja exibida na tabela  
-    private String colunas[] = {"Matricula", "nome de usuario", "Senha", "Perfil"};
+    private String colunas[] = {"Matricula","Nome","Cpf","Idade","Cep","Nº Residecial","Telefone", "Nome de usuario", "Senha", "Perfil"};
     private ArrayList<Usuario> usuarios;
 
-    public TableModelAnotador(ArrayList<Usuario> usuarios) {
-        this.usuarios = usuarios;
+    public TableModelAnotador() {
+        this.usuarios = (ArrayList<Usuario>) iDao.listaDeAnotadores();        
     }
 
     //retorna se a célula é editável ou não
@@ -26,6 +31,7 @@ public class TableModelAnotador extends AbstractTableModel{
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return false;
     }
+   
     
     //retorna o total de itens(que virarão linhas) da nossa lista
     @Override
@@ -48,13 +54,25 @@ public class TableModelAnotador extends AbstractTableModel{
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return Long.class;
+                return Long.class;//matricula
             case 1:
-                return String.class;
+                return String.class;//nome
             case 2:
-                return String.class;
+                return String.class;//cpf
             case 3:
-                return TipoUsuario.class;
+                return Integer.class;//idade
+            case 4:
+            	return String.class;//cep
+            case 5:
+            	return String.class;//residencia
+            case 6:
+            	return String.class;//telefone
+            case 7:
+            	return String.class;//nomeusuario
+            case 8: 
+               	return String.class;//senha
+            case 9:
+            	return TipoUsuario.class;//perfil
             default:
                 return String.class;
         }
@@ -69,17 +87,30 @@ public class TableModelAnotador extends AbstractTableModel{
             case 0:
                 return usuario.getMatricula();
             case 1:
-                return usuario.getNomeUsuario();
+                return usuario.getNome();
             case 2:
-                return usuario.getSenha();
+                return usuario.getCpf();
             case 3:
-                return usuario.getTipoUsuario();
+                return usuario.getIdade();
+            case 4:
+            	return usuario.getCep();
+            case 5:
+            	return usuario.getNumero();
+            case 6: 
+            	return usuario.getTelefone();
+            case 7:
+            	return usuario.getNomeUsuario();
+            case 8:
+            	return usuario.getSenha();
+            case 9:
+            	return usuario.getTipoUsuario();
+            			
         }
         return null;
     }
     //altera o valor do objeto de acordo com a célula editada
     //e notifica a alteração da tabela, para que ela seja atualizada na tela
-    @Override
+    @Override 
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         //o argumento recebido pelo método é do tipo Object
         //mas como nossa tabela é de funcionários, é seguro(e até recomendável) fazer o cast de suas propriedades
@@ -102,5 +133,6 @@ public class TableModelAnotador extends AbstractTableModel{
         //este método é que notifica a tabela que houve alteração de dados
         fireTableDataChanged();
     }
+
 
 }
