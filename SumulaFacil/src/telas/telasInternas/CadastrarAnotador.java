@@ -59,6 +59,8 @@ public class CadastrarAnotador extends JInternalFrame {
 	private JScrollPane scrollPane;
 	private JButton btnNewButton_1;
 	private JButton btnNewButton_2;
+	private JButton btnNewButton_1_1;
+
 	/**
 	 * Create the frame.
 	 * 
@@ -66,8 +68,7 @@ public class CadastrarAnotador extends JInternalFrame {
 	 * @throws PropertyVetoException
 	 */
 	public CadastrarAnotador() throws ParseException {
-	
-	
+
 		iControlador = new UsuarioControlador();
 		iDao = new UsuarioDao();
 
@@ -220,8 +221,6 @@ public class CadastrarAnotador extends JInternalFrame {
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				limparCampos();
-				btnNewButton_1.setText("Salvar");
-				btnNewButton_2.setVisible(false);
 			}
 		});
 		btnNewButton.setToolTipText("Limpar campos!");
@@ -235,48 +234,49 @@ public class CadastrarAnotador extends JInternalFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				iDao = new UsuarioDao();
-				iControlador = new UsuarioControlador();
 
 				String senha = new String(passwordField.getPassword());
 				String repitaSenha = new String(passwordField_1.getPassword());
- 
+
 				Usuario u = iControlador.inserirUsuarioControladorAnotador(formattedTextField_1.getText(),
 						formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
 						formattedTextField_1_1.getText(), formattedTextField_1_2.getText(), senha,
 						textField_1.getText(), repitaSenha);
-				
+
 				if (u != null) {
 
 					if (iDao.inserirUsuarioDao(u) == true) {
 
 						JOptionPane.showMessageDialog(null, "Anotador cadastrado com sucesso!");
 						limparCampos();
-						modelAnotador = new TableModelAnotador();		
+						modelAnotador = new TableModelAnotador();
 						table = new JTable(modelAnotador);
 						table.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent arg0) {
-								if(arg0.getClickCount()==1) {
+								if (arg0.getClickCount() == 1) {
 									textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
-									formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
-									spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
-									formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
-									formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
-									formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+									formattedTextField
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 2));
+									spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(), 3));
+									formattedTextField_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+									formattedTextField_1_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 5));
+									formattedTextField_1_2
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
 									textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
-									passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-									passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-									btnNewButton_1.setText("Atualizar");
-									btnNewButton_2.setVisible(true);
-									
+									passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+									passwordField_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+
 								}
 							}
 						});
 						table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 						scrollPane.setViewportView(table);
-					}else {
-						
+					} else {
+
 						JOptionPane.showMessageDialog(null, "Usuário e/ou/ dados deste usuário já estão cadastrados");
 					}
 				} else {
@@ -287,86 +287,144 @@ public class CadastrarAnotador extends JInternalFrame {
 		});
 		btnNewButton_1.setToolTipText("Cadastrar!");
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 22));
-		btnNewButton_1.setBounds(543, 230, 172, 45);
+		btnNewButton_1.setBounds(431, 230, 172, 45);
 		panel.add(btnNewButton_1);
-		
+
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(78, 349, 1099, 133);
 		panel.add(scrollPane);
-		
-		modelAnotador = new TableModelAnotador();		
+
+		modelAnotador = new TableModelAnotador();
 		table = new JTable(modelAnotador);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				if(arg0.getClickCount()==1) {
+				if (arg0.getClickCount() == 1) {
 					textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
-					formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
-					spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
+					formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 2));
+					spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(), 3));
 					formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
-					formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
+					formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 5));
 					formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
 					textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
-					passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-					passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-					btnNewButton_1.setText("Atualizar");
-					btnNewButton_2.setVisible(true);
-					
+					passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+					passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+					btnNewButton_1.setEnabled(false);
+					btnNewButton_2.setEnabled(true);
+					btnNewButton_1_1.setEnabled(true);
 				}
 			}
 		});
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane.setViewportView(table);
-		
-		btnNewButton_2 = new JButton("Apagar");
+
+		btnNewButton_2 = new JButton("Excluir");
+		btnNewButton_2.setEnabled(false);
 		btnNewButton_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Long id = (Long) modelAnotador.getValueAt(table.getSelectedRow(), 0);
-				if(iDao.excluirUsuarioPorId(id)) {
-					modelAnotador = new TableModelAnotador();		
+				if (iDao.excluirUsuarioPorId(id)) {
+					modelAnotador = new TableModelAnotador();
 					table = new JTable(modelAnotador);
 					table.addMouseListener(new MouseAdapter() {
 						@Override
 						public void mouseClicked(MouseEvent arg0) {
-							if(arg0.getClickCount()==1) {
+							if (arg0.getClickCount() == 1) {
 								textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
-								formattedTextField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),2));
-								spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(),3));
-								formattedTextField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
-								formattedTextField_1_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),5));
-								formattedTextField_1_2.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+								formattedTextField
+										.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 2));
+								spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(), 3));
+								formattedTextField_1
+										.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+								formattedTextField_1_1
+										.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 5));
+								formattedTextField_1_2
+										.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
 								textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
-								passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-								passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(),8));
-								btnNewButton_1.setText("Atualizar");
-								btnNewButton_2.setVisible(true);
-								
+								passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+								passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+
 							}
 						}
 					});
 					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 					scrollPane.setViewportView(table);
+					JOptionPane.showMessageDialog(null, "Registro apagado com sucesso!");
 				}
 			}
 		});
-		btnNewButton_2.setVisible(false);
 		btnNewButton_2.setFont(new Font("Tahoma", Font.BOLD, 22));
-		btnNewButton_2.setBounds(859, 230, 191, 45);
+		btnNewButton_2.setBounds(823, 230, 191, 45);
 		panel.add(btnNewButton_2);
-		
+
 		JLabel lblNewLabel = new JLabel("Selecione um item na lista para edit\u00E1-lo ou exclu\u00ED-lo.");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel.setBounds(78, 523, 361, 25);
 		panel.add(lblNewLabel);
-		
+
 		JLabel lblNewLabel_2 = new JLabel("Campos marcados (*) s\u00E3o obrigat\u00F3rios.");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblNewLabel_2.setBounds(78, 498, 283, 25);
 		panel.add(lblNewLabel_2);
-		
-				
-		
-	
+
+		btnNewButton_1_1 = new JButton("Editar");
+		btnNewButton_1_1.setEnabled(false);
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				String senha = new String(passwordField.getPassword());
+				String repitaSenha = new String(passwordField_1.getPassword());
+
+				Usuario u = iControlador.inserirUsuarioControladorAnotador(formattedTextField_1.getText(),
+						formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
+						formattedTextField_1_1.getText(), formattedTextField_1_2.getText(), senha,
+						textField_1.getText(), repitaSenha);
+
+				if (u != null) {
+					if (iDao.alterarUsuarioDaoAnotador(u)) {
+						modelAnotador = new TableModelAnotador();
+						table = new JTable(modelAnotador);
+
+						table.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent arg0) {
+								if (arg0.getClickCount() == 1) {
+									textField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 1));
+									formattedTextField
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 2));
+									spinner.setValue(modelAnotador.getValueAt(table.getSelectedRow(), 3));
+									formattedTextField_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 4));
+									formattedTextField_1_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 5));
+									formattedTextField_1_2
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 6));
+									textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
+									passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+									passwordField_1
+											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
+									
+									btnNewButton_1.setEnabled(false);
+									btnNewButton_2.setEnabled(true);
+									btnNewButton_1_1.setEnabled(true);
+								}
+							}
+						});
+
+						table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+						scrollPane.setViewportView(table);
+						JOptionPane.showMessageDialog(null, "Registro atualizado!");
+						limparCampos();
+					}
+				}
+			}
+
+		});
+		btnNewButton_1_1.setToolTipText("Editar");
+		btnNewButton_1_1.setFont(new Font("Tahoma", Font.BOLD, 22));
+		btnNewButton_1_1.setBounds(629, 230, 172, 45);
+		panel.add(btnNewButton_1_1);
+
 	}
 
 	public void limparCampos() {
@@ -379,6 +437,8 @@ public class CadastrarAnotador extends JInternalFrame {
 		passwordField.setText("");
 		textField_1.setText("");
 		passwordField_1.setText("");
+		btnNewButton_1.setEnabled(true);
+		btnNewButton_2.setEnabled(false);
+		btnNewButton_1_1.setEnabled(false);
 	}
-	
 }

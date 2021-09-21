@@ -11,5 +11,5 @@ public interface IusuarioDao {
 	public boolean inserirUsuarioDao(Usuario usuario);
 	public boolean loginDao(Usuario usuario);
 	public List<Usuario> listaDeAnotadores();
-	
+	public boolean alterarUsuarioDaoAnotador(Usuario usuario);
 }

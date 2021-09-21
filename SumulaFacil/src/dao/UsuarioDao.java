@@ -21,10 +21,9 @@ public class UsuarioDao implements IusuarioDao {
 
 	public UsuarioDao() {
 
-		em = FabricaDeConexao.getEntityManager();
-
 	}
 
+	@Override
 	public boolean excluirUsuarioPorId(Long u) {
 
 		em = FabricaDeConexao.getEntityManager();
@@ -44,10 +43,11 @@ public class UsuarioDao implements IusuarioDao {
 			et.rollback();
 			System.out.println("id informado nao existe");
 			return false;
-		} 
+		}
 
 	}
 
+	@Override
 	public boolean inserirUsuarioDao(Usuario usuario) throws ConstraintViolationException {
 
 		em = FabricaDeConexao.getEntityManager();
@@ -70,6 +70,7 @@ public class UsuarioDao implements IusuarioDao {
 
 	}
 
+	@Override
 	public boolean loginDao(Usuario usuario) {
 		em = FabricaDeConexao.getEntityManager();
 
@@ -78,9 +79,9 @@ public class UsuarioDao implements IusuarioDao {
 			String hql = "from Usuario where nomeUsuario = :nomeUsuario and senha=:senha and tipoUsuario = :tipoUsuario";
 			Query query = em.createQuery(hql);
 			query.setParameter("nomeUsuario", usuario.getNomeUsuario());
-			query.setParameter("senha",usuario.getSenha());
+			query.setParameter("senha", usuario.getSenha());
 			query.setParameter("tipoUsuario", usuario.getTipoUsuario());
-			
+
 			query.getSingleResult();
 			System.out.println("ok");
 			Sessao.getInstance().setUsuario(usuario);
@@ -112,17 +113,41 @@ public class UsuarioDao implements IusuarioDao {
 
 	}
 
-	public boolean alterarUsuarioAnotador(Usuario usuario) {
+	@Override
+	public boolean alterarUsuarioDaoAnotador(Usuario usuario) {
+		em = FabricaDeConexao.getEntityManager();
+		EntityTransaction etEntityTransaction = em.getTransaction();
 
 		try {
-
+			usuario.setMatricula(usuarioAnotadorPeloNome(usuario.getNomeUsuario()));
+			
+			etEntityTransaction.begin();
+			em.merge(usuario);
+			etEntityTransaction.commit();
+			System.out.println("Alterado");
+			return true;
 		} catch (Exception e) {
-
+			e.printStackTrace();
+			return false;
 		}
-
-		return false;
 
 	}
 
+	public long usuarioAnotadorPeloNome(String nomeUsuario) {
 
+		em = FabricaDeConexao.getEntityManager();
+		try {
+			String hql = "select u.matricula from Usuario as u where u.nomeUsuario = :nomeUsuario";
+			Query query = em.createQuery(hql);
+			query.setParameter("nomeUsuario", nomeUsuario);
+			long id = (long) query.getSingleResult();
+			return id;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+
+		}
+		
+
+	}
 }

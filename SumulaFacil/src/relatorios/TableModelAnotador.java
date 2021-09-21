@@ -2,8 +2,6 @@ package relatorios;
 
 import java.util.ArrayList;
 
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.AbstractTableModel;
 
 import basicas.TipoUsuario;

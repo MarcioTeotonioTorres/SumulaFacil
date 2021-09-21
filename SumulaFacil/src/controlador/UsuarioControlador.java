@@ -73,6 +73,7 @@ public class UsuarioControlador implements IusuarioControlador {
 			else {
 
 				Usuario usuarioDir = new Usuario();
+				
 				usuarioDir.setNome(nome);
 				usuarioDir.setCep(cep);
 				usuarioDir.setSenha(senha);
@@ -198,10 +199,12 @@ public class UsuarioControlador implements IusuarioControlador {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			
 			return null;
 		}
 		
 	}
+
+
 
 }
