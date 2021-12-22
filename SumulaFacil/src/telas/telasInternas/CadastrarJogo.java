@@ -13,9 +13,7 @@ public class CadastrarJogo extends JInternalFrame{
 	public CadastrarJogo() {
 		setBorder(UIManager.getBorder("PopupMenu.border"));
 		setTitle("Cadastrar Jogo");
-		setMaximizable(true);
-		setResizable(false);		 
-		setIconifiable(true);		
+		setResizable(false);
 		setClosable(true);
 		setBounds(0, 33, 1350, 700);
 	}

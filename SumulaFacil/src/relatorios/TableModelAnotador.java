@@ -6,8 +6,8 @@ import javax.swing.table.AbstractTableModel;
 
 import basicas.TipoUsuario;
 import basicas.Usuario;
+import dao.IusuarioDao;
 import dao.UsuarioDao;
-import interfaceDao.IusuarioDao;
 public class TableModelAnotador extends AbstractTableModel{
 
 	private IusuarioDao iDao = new UsuarioDao();

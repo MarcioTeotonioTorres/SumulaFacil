@@ -29,10 +29,10 @@ import javax.swing.border.BevelBorder;
 import javax.swing.text.MaskFormatter;
 
 import basicas.Usuario;
+import controlador.IusuarioControlador;
 import controlador.UsuarioControlador;
+import dao.IusuarioDao;
 import dao.UsuarioDao;
-import interfaceControlador.IusuarioControlador;
-import interfaceDao.IusuarioDao;
 import relatorios.TableModelAnotador;
 
 public class CadastrarAnotador extends JInternalFrame {
@@ -67,15 +67,13 @@ public class CadastrarAnotador extends JInternalFrame {
 	 * @throws ParseException
 	 * @throws PropertyVetoException
 	 */
-	public CadastrarAnotador() throws ParseException {
+	public CadastrarAnotador() throws ParseException{
 
 		iControlador = new UsuarioControlador();
 		iDao = new UsuarioDao();
 
 		setBorder(UIManager.getBorder("PopupMenu.border"));
 		setTitle("Cadastrar Anotador");
-
-		setMaximizable(true);
 		setResizable(false);
 		setClosable(true);
 		setBounds(0, 33, 1360, 700);
@@ -269,7 +267,9 @@ public class CadastrarAnotador extends JInternalFrame {
 									passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
 									passwordField_1
 											.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
-
+									btnNewButton_1.setEnabled(false);
+									btnNewButton_2.setEnabled(true);
+									btnNewButton_1_1.setEnabled(true);
 								}
 							}
 						});
@@ -343,7 +343,7 @@ public class CadastrarAnotador extends JInternalFrame {
 								textField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 7));
 								passwordField.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
 								passwordField_1.setText((String) modelAnotador.getValueAt(table.getSelectedRow(), 8));
-
+limparCampos();
 							}
 						}
 					});

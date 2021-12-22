@@ -4,7 +4,7 @@ import javax.swing.JOptionPane;
 
 import basicas.TipoUsuario;
 import basicas.Usuario;
-import interfaceControlador.IusuarioControlador;
+import util.Sessao;
 
 public class UsuarioControlador implements IusuarioControlador {
 
@@ -38,7 +38,7 @@ public class UsuarioControlador implements IusuarioControlador {
 					|| cpf.equals("888.888.888-88") || cpf.equals("999.999.999-99")) {
 
 				JOptionPane.showMessageDialog(null,
-						"Todos os campos são obrigatórios! O \"CPF\" está  vazio ou é inválido.");
+						"Todos os campos são obrigatórios! O \"CPF\" está vazio ou é inválido.");
 				return null;
 			} else if (telefone.equals("(  )     -    ") || telefone.equals("(00)00000-0000")
 					|| telefone.equals("(11)11111-1111") || telefone.equals("(22)22222-2222")
@@ -83,6 +83,7 @@ public class UsuarioControlador implements IusuarioControlador {
 				usuarioDir.setNumero(numero);
 				usuarioDir.setTelefone(telefone);
 				usuarioDir.setTipoUsuario(TipoUsuario.Dirigente);
+				usuarioDir.setCadastradoPor(null);
 				
 				return usuarioDir;
 				
@@ -99,19 +100,19 @@ public class UsuarioControlador implements IusuarioControlador {
 	public Usuario loginControlador(String nomeUsuario, String senha, TipoUsuario tipoUsuario) {
 
 		try {
-			if (!nomeUsuario.isEmpty() || !senha.isEmpty()) {
+			if (nomeUsuario.isEmpty() || senha.isEmpty()) {
 
-
+				return null;
+			
+			} else {
+			
 				Usuario usuarioLog = new Usuario();
 				usuarioLog.setNomeUsuario(nomeUsuario.trim());
 				usuarioLog.setSenha(senha.trim());
 				usuarioLog.setTipoUsuario(tipoUsuario);
 				
 				return usuarioLog;
-			} else {
-			
 				
-				return null;
 			}
 
 		} catch (Exception e) {
@@ -193,7 +194,7 @@ public class UsuarioControlador implements IusuarioControlador {
 				usuarioAnot.setNumero(numero);
 				usuarioAnot.setTelefone(telefone);
 				usuarioAnot.setTipoUsuario(TipoUsuario.Anotador);
-				
+				usuarioAnot.setCadastradoPor(Sessao.getInstance().getUsuario().getNomeUsuario());
 				return usuarioAnot;
 							
 			}

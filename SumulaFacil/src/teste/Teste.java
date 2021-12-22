@@ -11,7 +11,7 @@ public class Teste {
 		
 //		Usuario u = new Usuario();
 		
-		System.out.println(dao.usuarioAnotadorPeloNome("jarvs"));
+		dao.excluirUsuarioPorId((long) 435);
 		
 	}
 

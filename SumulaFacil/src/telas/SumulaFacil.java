@@ -26,15 +26,17 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 
+import basicas.Fachada;
 import basicas.TipoUsuario;
+import basicas.Usuario;
+import controlador.IusuarioControlador;
 import controlador.UsuarioControlador;
+import dao.IusuarioDao;
 import dao.UsuarioDao;
-import interfaceControlador.IusuarioControlador;
-import interfaceDao.IusuarioDao;
-import util.Sessao;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.Window.Type;
 
 public class SumulaFacil extends JFrame {
 
@@ -126,28 +128,26 @@ public class SumulaFacil extends JFrame {
 		btnNewButton_1.setToolTipText("Entrar!");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				IusuarioDao iDao = new UsuarioDao();
-				IusuarioControlador iControlador = new UsuarioControlador();
+				
+				Fachada fachada = new Fachada();
 
 				String senha = new String(passwordField.getPassword());
-
-				if (iControlador.loginControlador(textField.getText(), senha,
-						(TipoUsuario) comboBox.getSelectedItem())!=null) {
-
-					if (iDao.loginDao(iControlador.loginControlador(textField.getText(), senha,
-							(TipoUsuario) comboBox.getSelectedItem())) == true) {
-
-						setVisible(false);
-						
-						
-						
+				Usuario u = fachada.getControlador().loginControlador(textField.getText(), senha,
+						(TipoUsuario) comboBox.getSelectedItem());
+				
+				if (u!=null) {				
+					if (fachada.getDao().loginDao(u) == true) {
+						setVisible(false);							
 						Principal principal = new Principal();
-						principal.setVisible(true);						
+						principal.setVisible(true);					
 						
 					} else {
 						
+						textField.setText("");
+						passwordField.setText("");
+						comboBox.setSelectedIndex(0);
 						
-						JOptionPane.showMessageDialog(null, "Usuário não existe ou inválido");
+						JOptionPane.showMessageDialog(null, "Usuário não existe ou inválido. Verifique os Campos \"Usuário\" e/ou \"Senha\" ");
 						
 					}
 				} else {

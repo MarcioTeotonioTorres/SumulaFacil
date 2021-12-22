@@ -24,16 +24,16 @@ import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
+import basicas.Usuario;
+import controlador.IusuarioControlador;
 import controlador.UsuarioControlador;
+import dao.IusuarioDao;
 import dao.UsuarioDao;
-import interfaceControlador.IusuarioControlador;
-import interfaceDao.IusuarioDao;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class NovoDirigente extends JFrame {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
@@ -47,18 +47,37 @@ public class NovoDirigente extends JFrame {
 	private JSpinner spinner;
 	private JFormattedTextField formattedTextField_1_1;
 
-	/**
-	 * Create the frame.
-	 * 
-	 * @throws ParseException
-	 */
 	public NovoDirigente() throws ParseException {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				Object[] confirme = { "Sim", "Não" };
+				int i = JOptionPane.showOptionDialog(null, "Tem certeza de que deseja sair?",
+						"Os dados não salvos serão perdidos!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
+						null, confirme, confirme[0]);
+
+				if (i == 0) {
+
+					dispose();
+					SumulaFacil login;
+					try {
+
+						login = new SumulaFacil();
+						login.setVisible(true);
+					} catch (Exception ex) {
+						// TODO: handle exception
+						ex.printStackTrace();
+
+					}
+				}
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit()
 				.getImage(NovoDirigente.class.getResource("/imagens/icons8_add_administrator_32.png")));
 		setTitle("Registrar-se como novo dirigente.");
 		setResizable(false);
 		setEnabled(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 1320, 700);
 		setExtendedState(MAXIMIZED_BOTH);
 		contentPane = new JPanel();
@@ -205,30 +224,31 @@ public class NovoDirigente extends JFrame {
 
 				String senha = new String(passwordField.getPassword());
 				String repitaSenha = new String(passwordField_1.getPassword());
-
-				if (iControlador.inserirUsuarioControladorAnotador(formattedTextField_1.getText(),
-						formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
-						formattedTextField_1_1.getText(), formattedTextField_1_2.getText(), senha,
-						textField_1.getText(), repitaSenha) != null) {
-
-					if (iDao.inserirUsuarioDao(iControlador.inserirUsuarioControlador(formattedTextField_1.getText(),
+				try {
+					Usuario u = iControlador.inserirUsuarioControlador(formattedTextField_1.getText(),
 							formattedTextField.getText(), (int) spinner.getValue(), textField.getText(),
 							formattedTextField_1_1.getText(), formattedTextField_1_2.getText(), senha,
-							textField_1.getText(), repitaSenha)) == true) {
+							textField_1.getText(), repitaSenha);
 
-						JOptionPane.showMessageDialog(null, "Cadastrado com sucesso. Efetue o login!");
-						dispose();
+					if (u != null) {
 
-						SumulaFacil login = new SumulaFacil();
-						login.setVisible(true);
+						if (iDao.inserirUsuarioDao(u) == true) {
 
+							JOptionPane.showMessageDialog(null, "Cadastrado com sucesso. Efetue o login!");
+							dispose();
+
+							SumulaFacil login = new SumulaFacil();
+							login.setVisible(true);
+
+						}
+					} else {
+						JOptionPane.showMessageDialog(null, "Tente novamente!");
+						System.out.println(u);
 					}
-				} else {
-					JOptionPane.showMessageDialog(null, "Tente novamente!");
-
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-
 		});
 		btnNewButton_1.setBounds(339, 549, 172, 45);
 		panel.add(btnNewButton_1);

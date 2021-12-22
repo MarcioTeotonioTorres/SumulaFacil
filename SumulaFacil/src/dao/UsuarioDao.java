@@ -12,7 +12,6 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import basicas.Usuario;
 import conexao.FabricaDeConexao;
-import interfaceDao.IusuarioDao;
 import util.Sessao;
 
 public class UsuarioDao implements IusuarioDao {
@@ -31,12 +30,15 @@ public class UsuarioDao implements IusuarioDao {
 		try {
 			et.begin();
 
-			em.createQuery("delete from Usuario where id = :id").setParameter("id", u).executeUpdate();
+			em.createQuery("delete from Usuario where matricula = :matricula").setParameter("matricula", u)
+					.executeUpdate();
+			em.createQuery("delete from Pessoa where matricula = :matricula").setParameter("matricula", u)
+					.executeUpdate();
 			et.commit();
 
 			System.out.println("deletado com sucesso");
-
 			return true;
+
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -61,7 +63,7 @@ public class UsuarioDao implements IusuarioDao {
 			return true;
 
 		} catch (PersistenceException e) {
-			// TODO: handle exception
+			// TODO:handle exception
 			e.printStackTrace();
 			System.out.println("usuario esta nullo");
 
@@ -72,23 +74,25 @@ public class UsuarioDao implements IusuarioDao {
 
 	@Override
 	public boolean loginDao(Usuario usuario) {
+		
 		em = FabricaDeConexao.getEntityManager();
 
 		try {
 
-			String hql = "from Usuario where nomeUsuario = :nomeUsuario and senha=:senha and tipoUsuario = :tipoUsuario";
+			String hql = "from Usuario where nomeUsuario = :nomeUsuario and senha = :senha and tipoUsuario = :tipoUsuario";
+
 			Query query = em.createQuery(hql);
+
 			query.setParameter("nomeUsuario", usuario.getNomeUsuario());
 			query.setParameter("senha", usuario.getSenha());
 			query.setParameter("tipoUsuario", usuario.getTipoUsuario());
 
 			query.getSingleResult();
-			System.out.println("ok");
 			Sessao.getInstance().setUsuario(usuario);
 			return true;
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			Sessao.getInstance().setUsuario(null);
 			return false;
 
 		}
@@ -120,7 +124,7 @@ public class UsuarioDao implements IusuarioDao {
 
 		try {
 			usuario.setMatricula(usuarioAnotadorPeloNome(usuario.getNomeUsuario()));
-			
+
 			etEntityTransaction.begin();
 			em.merge(usuario);
 			etEntityTransaction.commit();
@@ -147,7 +151,6 @@ public class UsuarioDao implements IusuarioDao {
 			return 0;
 
 		}
-		
 
 	}
 }

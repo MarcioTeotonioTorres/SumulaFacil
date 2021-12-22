@@ -33,6 +33,13 @@ public class Usuario extends Pessoa implements Serializable{
 		
 	}
 
+	public Usuario(String nomeUsuario, String senha, TipoUsuario tipoUsuario) {
+		super();
+		this.nomeUsuario = nomeUsuario;
+		this.senha = senha;
+		this.tipoUsuario = tipoUsuario;
+	}
+
 	public Usuario(Pessoa pessoa, String nomeUsuario, String senha, TipoUsuario tipoUsuario) {
 		super();
 		this.pessoa = pessoa;
@@ -81,6 +88,7 @@ public class Usuario extends Pessoa implements Serializable{
 		return "Usuario [pessoa=" + pessoa.getMatricula() + ", nomeUsuario=" + nomeUsuario + ", senha=" + senha + ", tipoUsuario="
 				+ tipoUsuario + "]";
 	}
+
 
 	
 	
